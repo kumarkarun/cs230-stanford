@@ -13,6 +13,12 @@ from pytorch.vision.model import data_loader as data_loader
 from PIL import Image
 import torchvision.transforms as transforms
 from tqdm import tqdm
+from scipy import ndimage
+import scipy
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 def predict(image_filename):
     # Process image
@@ -86,5 +92,10 @@ parser.add_argument('--model_dir', default='experiments/test', help="Where to wr
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    image_filename = "data/64x64_SIGNS/test_signs/2_IMG_4607.jpg"
+    image_filename = "data/64x64_SIGNS/val_signs/3_IMG_6123.jpg"
+    #image = np.array(ndimage.imread(fname, flatten=False))
+    #my_image = scipy.misc.imresize(image, size=(64, 64))
+    img = mpimg.imread(image_filename)
+    imgplot = plt.imshow(img)
+    plt.show()
     predict(image_filename)
