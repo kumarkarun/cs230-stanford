@@ -19,6 +19,8 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+from PIL import *
+from fastai.vision.image import pil2tensor
 
 def predict(image_filename):
     # Process image
@@ -28,8 +30,13 @@ def predict(image_filename):
     image = image.resize((64, 64), Image.BILINEAR)
 
     # pytorch provides a function to convert PIL images to tensors.
-    pil2tensor = transforms.ToTensor()
-    rgb_image = pil2tensor(image)
+    tensors = transforms.ToTensor()
+    rgb_image = tensors(image)
+    print(rgb_image.shape)
+    
+    #fastai method to get tensor
+    t=pil2tensor(Image.open(image_filename).convert("RGB"), np.float32).div_(255)
+    print(t.shape)
     # Numpy -> Tensor
     #image_tensor = torch.from_numpy(image).type(torch.FloatTensor)
     # Add batch of size 1 to image
@@ -97,5 +104,5 @@ if __name__ == '__main__':
     #my_image = scipy.misc.imresize(image, size=(64, 64))
     img = mpimg.imread(image_filename)
     imgplot = plt.imshow(img)
-    plt.show()
+    #plt.show()
     predict(image_filename)
